@@ -1,37 +1,57 @@
+// import logo from './logo.svg';
+// import './App.css';
+import {useState, useEffect} from 'react';
+import Player from './components/Player';
 
-import './App.css';
-import profile from "./image/a.png"
-import email from "./image/email.png"
-import pass from "./image/pass.png"
 function App() {
-  return (
-    <div className="main">
-      <div className="sub-main">
-        <div>
-          <div classname="imgs">
-            <div classname = "container-image">
-              { <img src={profile} alt = "profile"/> }
-            </div>
+  const [songs] = useState([
+    {
+      title: "Double Take",
+      artist: "Dhruv",
+      img_src: "./images/beach.jpeg",
+      src: "./music/double take.mp3"
+    },
+    {
+      title: "Serotonin",
+      artist: "Tom Walker",
+      img_src:"./images/pill.jpg",
+      src: "./music/serotonin.mp3"
+    },
+    {
+      title: "On & On",
+      artist: "Cartoon",
+      img_src:"./images/pill.jpg",
+      src: "./music/On & On.mp3"
+    },
+    {
+      title: "Birthday Cake",
+      artist: "Dylan Conrique",
+      img_src:"./images/pill.jpg",
+      src: "./music/Birthday Cake.mp3"
+    }
+  ]);
 
-          </div>
-          <div>
-            <h1>Login Page</h1>
-          <img src={email} alt ="email" className = "email"/>
-          <input type = "text" placeholder="Username" className="name"/>
-        </div>
-        <p> </p>
-        <div className="second-input">
-          <img src={pass} alt ="pass" className = "email"/>
-          <input type = "text" placeholder="Password" className="name"/>
-        </div>
-        <div className="login-button"></div>
-        
-        <button>Login</button>
-        <p className="link">
-          <a href="#">Forgot Password?</a> Or <a href="#">Sign Up</a>
-        </p>
-      </div>
-    </div>
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
+
+  useEffect(() => {
+    setNextSongIndex(() => {
+      if (currentSongIndex + 1 > songs.length - 1) {
+        return 0;
+      } else {
+        return currentSongIndex + 1;
+      }
+    });
+  }, [currentSongIndex]);
+
+  return (
+    <div className="App">
+      <Player 
+        currentSongIndex={currentSongIndex} 
+        setCurrentSongIndex={setCurrentSongIndex} 
+        nextSongIndex={nextSongIndex} 
+        songs={songs}
+      />
     </div>
   );
 }
